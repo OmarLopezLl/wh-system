@@ -1,0 +1,214 @@
+{% extends "warehouses/base.html" %}
+{% load static %}
+
+{% block titulo %}<title>Nosotros</title>{% endblock %}
+<body>
+	{% block indice %}
+	{% endblock %}
+
+	{% block indice_css %}
+	<link rel="stylesheet" href="{% static 'css/ind01.css'%}" />
+	{% endblock %}
+
+	{% block cuerpo %}
+	<div class="card-card">
+		<header>
+			<div class="row mt-2">
+				{% block card_encabezado %}
+				{% for x in nosotros %}
+				<div class="col">
+					<div class="card-body">
+						<div class="card" style="width: 15rem;">
+							<img src="/{{ x.logo_raw }}" title="Comunidad de materiales" class="card-img-top"
+								width="120" alt="">
+						</div>
+						<br>
+					</div>
+				</div>
+				<div class="col">
+					<div class="card-body">
+						<h4 class="card-title">{{ x.nombre }}</h4>
+						<br>
+						<ul>
+							<li>
+								<h5 class="card-title">Dirección: {{ x.direccion }}</h5>
+							</li>
+							<li>
+								<h5 class="card-title">Teléfono: {{ x.telefono }}</h5>
+							</li>
+							<li>
+								<h5 class="card-title">Email: {{ x.email }}</h5>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<div class="col" style="text-align: center;">
+					<div class="card-body">
+						<h6 class="card-title">{{ y.comentarios }}</h6>
+					</div>
+					<br>
+				</div>
+				{% endfor %}
+				{% endblock %}
+			</div>
+		</header>
+		<div class="card-body">
+			{% block card_cuerpo %}
+			<div class="menu">
+				<nav class="nav-list" style="align-content: end;">
+					<ul>
+						<li><a href="">Nosotros</a></li>
+						<li><a href="">Servicios</a></li>
+						<li><a href="#">Productos</a></li>
+						<li><a href="#">Novedades</a></li>
+						<li><a href="#">Contactos</a></li>
+					</ul>
+			</div>
+			<div class="col column-count:1; " style="text-align:center">
+				<br>
+				<a class="text-decoration-none link-dark" href="xx">
+					<h4>Distribuidora Elementos Deportivos</h4>
+					<br>
+				</a>
+			</div>
+			<div class="nosotros">
+				<h2>Nosostros</h2>
+				<br>
+				<div class="row mt-2">
+					<div class="col">
+						<div class="card-body">
+							<div class="card" style="width: 15rem;">
+								<img src="/static/imagenes/logo.jpg" class="rounded" title="Materiales"
+									alt="logotipo de materiales" width="4	00" />
+							</div>
+						</div>
+					</div>
+					<div class="col">
+						<div class="col column-count:1; " style="text-align:center">
+							<h2>Mision</h2>
+							<h1>Desde nuestro origen, en hemos sido distribuidos la mejor ropa a nivel naciona e
+								internacional. Iniciamos con la transformación de una .</h1>
+						</div>
+					</div>
+				</div>
+				<br>
+				<div class="row mt-2">
+					<div class="col">
+						<div class="col column-count:1; " style="text-align:center">
+							<h2>Vision.</h2>
+							<h1>Desde nuestro origen, en hemos sido distribuidos la mejor ropa a nivel naciona e
+								internacional. Iniciamos con la transformación de una .</h1>
+						</div>
+					</div>
+					<div class="col">
+						<div class="card-body">
+							<div class="card" style="width: 5rem;">
+								<img src="/static/imagenes/logo.jpg" class="rounded" title="Materiales"
+									alt="logotipo de materiales" width="300" />
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="servicios">
+				<h4>servicios</h4>
+				<div class="row mt-2">
+					<div class="col">
+						<div class="card-body">
+							<div class="card" style="width: 5rem;">
+								<img src="/static/imagenes/diseñadores.jfif" class="rounded" title="Servicios"
+									alt="logotipo de servicios" width="300" />
+							</div>
+						</div>
+					</div>
+					<div class="col">
+						<div class="col column-count:1; " style="text-align:left">
+							<h2>Mision</h2>
+							<h2>Desde nuestro origen, en hemos sido distribuidos la mejor ropa a nivel naciona e
+								internacional. Iniciamos con la transformación de una .</h2>
+						</div>
+					</div>
+				</div>
+
+				<div class="row mt-2">
+					<div class="col">
+						<div class="col column-count:1; " style="text-align:left">
+							<h2>Vision</h2>
+							<h2>Desde nuestro origen, en hemos sido distribuidos la mejor ropa a nivel naciona e
+								internacional. Iniciamos con la transformación de una .</h2>
+						</div>
+					</div>
+
+					<div class="col">
+						<div class="card-body">
+							<div class="card" style="width: 5rem;">
+								<img src="/static/imagenes/diseñadores.jfif" class="rounded" title="Servicios"
+									alt="logotipo de servicios" width="300" />
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+
+		</div>
+		<div class="productos">
+			<h4>productos</h4>
+			<div class="row mt-2">
+				<div class="col">
+					<div class="card-body">
+						<div class="card" style="width: 5rem;">
+							<img src="/static/imagenes/productos.jpg	" class="rounded" title="Servicios"
+								alt="logotipo de servicios" width="300" />
+						</div>
+					</div>
+				</div>
+				<div class="col">
+					<div class="col column-count:1; " style="text-align:left">
+						<h1>Desde nuestro origen, en hemos sido distribuidos la mejor ropa a nivel naciona e
+							internacional. Iniciamos con la transformación de una .</h1>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="novedades">
+			<h4>novedades</h4>
+		</div>
+		<div class="Contactos">
+			<h4>Contactos</h4>
+		</div>
+	</div>
+	{% endblock %}
+	</div>
+
+	<div class="col column-count:1; " style="text-align:center">
+		<br>
+		<a class="text-decoration-none link-dark" href="xx">
+			<h4>Distribuidora Elementos Deportivos</h4>
+			<br>
+		</a>
+	</div>
+
+	<div class="card-body">
+		<div class="col column-count:1; column-gap:1px; " style="text-align:left">
+			<nav class="nav-list">
+				<ul>
+					<li><a href="partner">Comunidad</a></li>
+					<li><a href="noticias">Noticias</a></li>
+					<li><a href="#">Contacto</a></li>
+					<li><a href="#">Acerca de</a></li>
+				</ul>
+			</nav>
+		</div>
+		<button>
+			hola
+		</button>
+	</div>
+	{% endblock %}
+	<button>
+		hola
+	</button>
+	</div>
+</body>

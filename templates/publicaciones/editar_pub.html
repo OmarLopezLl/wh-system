@@ -1,0 +1,42 @@
+{% extends "publicaciones/base.html" %}
+{% load humanize %}
+{% load l10n %}
+{% block contenido %}
+
+<div class="container-lg my-5">
+	<div class="mb-5 form-check text-center">
+		<h4 class="text-secondary">mensaje {{ mensaje  }} {{ usuario }}  </h4>
+	</div>
+	{% if nivel == 2 %}
+	<div class="mb-5 form-check text-center">
+		<div class="alert {{ cla_mensaje2 }}">{{ mensaje2 }}</div>
+	</div>
+	{% else %}
+	<form action="" method="post" enctype="multipart/form-data" >{% csrf_token %}
+		<div class="mb-3">
+			<label for="producto" class="form-label">Producto</label>
+			<input type="text" class="form-control" name="producto" value="{{ public.producto }}"
+				aria-describedby="emailHelp">
+			<!-- <div id="emailHelp" class="form-text">Producto.</div> -->
+		</div>
+		<div class="mb-3">
+			<label for="precio" class="form-label">Precio</label>
+			<input type="text" class="form-control" name="precio" value="{{ public.precio|unlocalize }}" placeholder="Precio">
+		</div>
+		<div class="mb-3">
+			<label for="comentarios" class="form-label">Comentarios</label>
+			<input type="text" class="form-control" name="comentarios" value="{{ public.comentarios }}"
+				placeholder="Comentarios">
+		</div>
+		<div class="mb-3">
+			<label for="imagen" class="form-label">Imagen</label>
+			<div class="card" style="width: 15rem;">
+				<img src="/{{ public.foto_raw }}" class="card-img-top" w-100 alt="...">
+				<input type="file" class="form-control" name="foto">	
+			</div>
+		</div>
+		<button type="submit" class="btn btn-primary">Actualizar</button>
+	</form>
+	{% endif %}
+</div>
+{% endblock %}

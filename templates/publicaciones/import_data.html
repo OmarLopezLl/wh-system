@@ -1,0 +1,41 @@
+{% extends "warehouses/base.html" %}
+{% load static %}
+{% block titulo %}<title>Warehouses</title>{% endblock %}
+{% block indice %}
+
+{% endblock %}
+
+<body>
+	{% block cuerpo %}
+	<header>
+		{% block card_encabezado %}
+		<div class="row">
+			<div class="col">
+				<div class="logotipo">
+					<img class="logo" src="static/imagenes/logo.jpg" title="Materiales" alt="." height="120"
+						width="250" />
+				</div>
+			</div>
+			<div class="col" style="text-align:left">
+				<h3> Lista de materiales </h3>
+			</div>
+		</div>
+		{% endblock %}
+	</header>
+	<hr>
+	{{ user1 }}
+	<hr>
+	{% if user1 == "cargado" %}
+		Datos Cargados OK
+	{% else %}
+	{% block card_cuerpo %}
+	<form method="POST" enctype="multipart/form-data">
+		{% csrf_token %}
+		<input type="file" name="my_file">
+		<button type="submit">Upload </button>
+	</form>
+	{% endblock %}
+	{% endif %}
+	</div>
+	{% endblock %}
+</body>

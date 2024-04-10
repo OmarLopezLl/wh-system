@@ -1,0 +1,103 @@
+{% extends "warehouses/base.html" %}
+
+{% block titulo %}<title>Warehouses</title>{% endblock %}
+
+{% block indice %}
+
+{% endblock %}
+
+<body>
+    {% block cuerpo %}
+    <div class="card-card">
+        {% block card_encabezado %}
+        <header>
+            <div class="row mt-2">
+                {% for y in nomc %}
+                <div class="col">
+                    <div class="card-body">
+                        <div class="card" style="width: 15rem;">
+                            <img src="/{{ y.logo_raw }}" title="Comunidad de materiales" class="card-img-top" width="1"
+                                alt="">
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card-body">
+                        <h4 class="card-title">{{ y.nombre }}</h4>
+                        <ul>
+                            <li>
+                                <h6 class="card-title">id: {{ y.id }}</h6>
+                            </li>
+                            <li>
+                                <h6 class="card-title">Dirección: {{ y.direccion }}</h6>
+                            </li>
+                            <li>
+                                <h6 class="card-title">Teléfono: {{ y.telefono }}</h6>
+                            </li>
+                            <li>
+                                <h6 class="card-title">Email: {{ y.email }}</h6>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col" style="text-align: center;">
+                    <div class="card-body">
+                        <h6 class="card-title">{{ y.comentarios }}</h6>
+                    </div>
+                    <br>
+                    <button type="submit" title="Nosotros">
+                        <h9 class="mt-0">Nosotros </h9>
+                        <a href="/nosotros/{{ y.id }}" class="btn btn-to">
+                            <i class="bi-search"></i>
+                        </a>
+                    </button>
+                    <br>
+                </div>
+                {% endfor %}
+            </div>
+        </header>
+        {% endblock %}
+
+        {% block card_cuerpo %}
+        <div class="card">
+            {% block card_detalle %}
+            <table class="table table-striped" border="1" class <div class="table-responsive-sm">
+                <thead>
+                    <tr>
+                        <!-- <th scope="col"> </th> -->
+                        <th scope="col">Foto</th>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Valor</th>
+                        <th scope="col">Observaciones</th>
+                        <th scope="col">ID</th>
+                    </tr>
+                </thead>
+                {% for x in mater %}
+                <tbody>
+                    <tr class="">
+                        <!-- <td scope="row">Item</td> -->
+                        <!-- <td>{{x.id}}</td> -->
+                        <td>
+                            <div class="card" style="width: 10rem;">
+                                <img src="/{{ x.foto_raw }}" class="card-img-top" w-100 alt="...">
+                            </div>
+                        </td>
+                        <td>{{x.producto}}</td>
+                        <td>{{x.precio}}</td>
+                        <td width="350">{{x.comentarios}}</td>
+                        <td>{{x.id}}</td>
+                        <td>
+                            <a href="/update/{{ x.id }}" class="btn btn-lg">
+                                <i class="bi bi-pencil-fill"></i>
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+                {% endfor %}
+            </table>
+            {% endblock %}
+        </div>
+        {% endblock %}
+    </div>
+</body>
+{% endblock %}

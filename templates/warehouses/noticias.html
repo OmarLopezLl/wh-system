@@ -1,0 +1,109 @@
+{% extends "warehouses/base.html" %}
+{% load static %}
+{% block titulo %}<title>Noticias</title>{% endblock %}
+
+
+{% block indice %}
+{% endblock %}
+
+{% block indice_css %}
+<link rel="stylesheet" href="{% static 'css/ind03.css'%}" />
+{% endblock %}
+
+{% block cuerpo %}
+<header>
+	<div class="row mt-2">
+		{% block card_encabezado %}
+		<div class="row mt-1">
+			<div class="col-1">
+				<div class="logotipo">
+					<img src="/static/imagenes/logo.jpg" class="rounded" title="Materiales" alt="logotipo de materiales"
+						width="110" />
+				</div>
+			</div>
+		</div>
+		{% endblock %}
+	</div>
+</header>
+<div class="container">
+	<div class="row">
+		<div class="col-md-2"><br>
+			<img src="/static/imagenes/izq.png" class="img-responsive">
+		</div>
+		<div class="col-md-8"><br><br><br>
+			<center> <img src="/static/imagenes/slogo.png" class="img-responsive"> </center>
+		</div>
+		<div class="col-md-2"><br>
+			<img src="/static/imagenes/der.jfif" class="img-responsive">
+		</div>
+	</div>
+
+	<div class="row">
+		<nav class="nav-list">
+			<ul>
+				<li><a href="#">Portada</a></li>
+				<li><a href="#">Ciudades</a></li>
+				<li><a href="#">Marcas</a></li>
+				<li><a href="#">Economia</a></li>
+				<li><a href="#">Mundo</a></li>
+
+			</ul>
+		</nav>
+	</div>
+
+	<div class="row">
+
+	</div>
+	<div class="row">
+		<div class="col-md-3">
+			<img src="" alt="">
+		</div>
+
+		<div class="col-md-6">
+
+		</div>
+		<div class="col-md-3">
+			<img src="" alt="">
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-4">
+			<img src="" alt="">
+		</div>
+		<div class="col-md-8">
+
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-4">
+			<img src="" alt="">
+		</div>
+		<div class="col-md-4	">
+			<img src="" alt="">
+		</div>
+		<div class="col-md-4">
+			<img src="" alt="">
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-3">
+
+		</div>
+		<div class="col-md-3">
+
+		</div>
+		<div class="col-md-3">
+
+		</div>
+		<div class="col-md-3">
+
+		</div>
+
+	</div>
+	<div class="row">
+
+	</div>
+
+</div>
+
+{% endblock %}

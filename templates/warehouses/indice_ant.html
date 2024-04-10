@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	<link rel="stylesheet" type="text/css" href="static/css/index.css">
+</head>
+
+<body>
+	<header>
+		<div class="container">
+			<div class="row align-items-start">
+				<div class="col-20">
+					<img id="logo" class="logo" src="static/imagenes/logo.jpg" title="Autopartes"
+						alt="logotipo de repuestos" height="60" width="" />
+				</div>
+			</div>
+			<div class="row align-items-center">
+				<div class="col-md-4">
+					<nav>
+						<a href="partner">Comunidad</a>
+						<a href="noticias">Noticias</a>
+						<a href="#">Contacto</a>
+						<a href="#">Acerca de</a>
+						<a href="#">Acerca de</a>
+					</nav>
+				</div>
+
+			</div>
+			<div class="row align-items-end">
+				<div class="col-md-20">
+					<button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
+						aria-expanded="false">
+						{% if user.is_authenticated %}Hola, {{ user.username }}{% else %}Bien venido{% endif %}
+					</button>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-md-4 offset-md-4">
+					<ul class="dropdown-menu">
+						{% if user.is_authenticated %}
+						<a class="dropdown-item" href="/perfil">Perfil</a>
+						<a class="dropdown-item" href="/cambiar_clave">Cambiar Clave</a>
+						<a class="dropdown-item" href="/publicaciones">publicaciones</a>
+
+						<hr class="dropdown-divider">
+
+						<a class="dropdown-item" href="/cerrar_sesion">Cerrar Sesión</a>
+						{% else %}
+						<a class="dropdown-item" href="/iniciar_sesion">Ingresar</a>
+						{% endif %}
+					</ul>
+				</div>
+			</div>
+		</div>
+	</header>
+
+
+	<section id="hero">
+		<div class="imag-container">
+			<div class="row">
+				<div class="col" >
+					<!-- <h1>Aprende con los <br> mejores</h1> -->
+					<!-- <div style="text-align: left;"> -->
+					<img id="logo" class="logo" src="static/imagenes/logo.jpg" title="Autopartes"
+						alt="logotipo de repuestos" height="260" width="" />
+					<!-- </div> -->
+				</div>
+				<div class="col">
+					<!-- <h1>Aprende con los <br> mejores</h1> -->
+					<!-- <div style="text-align: left;"> -->
+					<img id="logo" class="logo" src="static/imagenes/logo.jpg" title="Autopartes" alt="logotipo de repuestos"
+						height="260" width="" />
+					<!-- </div> -->
+				</div>
+
+			</div>
+		</div>
+	</section>
+
+	<section id="somos-proya">
+		<div class="container">
+			<div class="container">
+				<h2>somos <span class="color-acento">Programaya!</span></h2>
+				<p>
+					Tanto si trabajas en el segmento del aprendizaje automático o de las finanzas como si deseas
+					desarrollar tu carrera en ciencias de datos o desarrollo web,
+				</p>
+			</div>
+		</div>
+	</section>
+
+
+	<section id="nuestros-programas">
+		<div class="container">
+			<h2> Nuestros programas</h2>
+			<div class="carta">
+				<h3>Programador Fron-end</h3>
+				<p>Tanto si trabajas en el segmento del aprendizaje automático o de las finanzas como si deseas
+					desarrollar tu carrera en ciencias de datos o desarrollo web, </p>
+				<button>
+					+ info
+				</button>
+			</div>
+			<div class="carta">
+				<div style="text-align: left;">
+					<img id="logo" class="logo" src="static/imagenes/logo.jpg" title="Autopartes"
+						alt="logotipo de repuestos" height="60" width="" />
+				</div>
+				<h3>programador full-stack</h3>
+
+
+
+			</div>
+			<div class="carta">
+				<h3> Programación Python </h3>
+				<p>Tanto si trabajas en el segmento del aprendizaje automático o de las finanzas como si deseas
+					desarrollar tu carrera </p>
+				<button>
+					+ info
+				</button>
+			</div>
+		</div>
+	</section>
+
+	<section id="caracteristicas">
+		<div class="container">
+			<ul>
+				<li>✅100% online​</li>
+				<li>✅Flexibilidad de usuarios/li>
+				<li>✅Soporte 1.1​</li>
+				<li>✅​Asistencia financira</li>
+			</ul>
+		</div>
+	</section>
+
+	<section id="final">
+		<h2> Listo para programar</h2>
+		<button> Aplica ya </button>
+	</section>
+
+	<footer>
+		<div class="container">
+			<p>&copy; spare</p>
+		</div>
+	</footer>
+</body>
+
+</html>

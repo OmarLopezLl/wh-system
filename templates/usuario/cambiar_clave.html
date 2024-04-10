@@ -1,0 +1,78 @@
+{% extends "warehouses/base.html" %}
+{% load static %}
+
+{% block titulo %}
+<title>Change Password</title>
+{% endblock %}
+
+{% block indice %}
+{% endblock %}
+
+{% block indice_css %}
+<link rel="stylesheet" href="{% static 'css/ind02.css'%}" />
+{% endblock %}
+
+
+{% block cuerpo %}
+<header>
+	<div class="row mt-2">
+		{% block card_encabezado %}
+		<div class="row mt-1">
+			<div class="col-1">
+				<div class="logotipo">
+					<img src="/static/imagenes/logo.jpg" class="rounded" title="Materiales" alt="logotipo de materiales"
+						width="120" />
+				</div>
+			</div>
+			<div class="col" style="text-align:right">
+				<h3> Pantalla de usuarios </h3>
+			</div>
+		</div>
+		{% endblock %}
+	</div>
+</header>
+
+<div class="perfil">
+	<div class="container-lg my-2">
+		<div class="mb-5 form-check text-center">
+			<h4 class="text-secondary">{{ mensaje }}</h4>
+		</div>
+		{% if nivel == 2 %}
+		<div class="mb-5 form-check text-center">
+			<div class="alert {{ cla_mensaje2 }}">{{ mensaje2 }}</div>
+		</div>
+		{% else %}
+		<script type="text/javascript">
+			function validar() {
+				// Funcion para validar que clave1 sea igual a clave2
+				// document.forms[0]
+				if (document.getElementById("clave1").value != document.getElementById("clave2").value) {
+					alert("Error en confirmación de la contraseña!");
+					document.getElementById("clave1").value = "";
+					document.getElementById("clave2").value = "";
+					document.getElementById("clave1").focus();
+					return false;
+				} else {
+					return true; // Por omisión se retorna true, así es que este else no hace falta
+				}
+			}
+		</script>
+		<form action="" method="post" onsubmit="return validar();">{% csrf_token %}
+			<div class="mb-1">
+				<label for="clave" class="form-label">Contraseña actual</label>
+				<input type="password" class="form-control" id="clave" name="clave" required>
+			</div>
+			<div class="mb-3">
+				<label for="clave1" class="form-label">Nueva Contraseña</label>
+				<input type="password" class="form-control" id="clave1" name="clave1" required>
+			</div>
+			<hr class="m-3">
+			<div class="mb-3">
+				<label for="clave2" class="form-label">Confirmar Contraseña</label>
+				<input type="password" class="form-control" id="clave2" name="clave2" required>
+			</div>
+			<button type="submit" class="btn btn-primary">Enviar</button>
+		</form>
+		{% endif %}
+	</div>
+	{% endblock %}

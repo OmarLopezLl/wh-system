@@ -1,0 +1,51 @@
+{% extends "publicaciones/base.html" %}
+{% load humanize %}
+{% load l10n %}
+
+{% block titulo %} Agregar nueva publicación {% endblock %}
+
+<body>
+	<header>
+		<h4 class="card-title">Datos publicación {{ usuario }}</h4>
+	</header>
+	{% block contenido %}
+	<br>
+	<div class="card">
+		<div class="card-header">Bodega {{ usuario.cliente }} id {{ usuario.id }} cliente_id {{ usuario.cliente_id }}
+			usuario_id {{ usuario.usuario_id }} {{cliente_id}}
+		</div>
+		
+		<form action="/crear_pub/" method="POST">{% csrf_token %}
+			<div class="card-body">
+				<h4 class="card-title">Datos de publicación</h4>
+
+				<div class="mb-3">
+					<label for="producto" class="form-label">Producto</label id="lpro" >
+					<input type="text" class="form-control" name="producto"  required >
+				</div>
+				<div class="mb-3">
+					<label for="fecha_publicacion">Fecha publicación</label>
+					<input type="datetime-local" class="form-control" name="fecha_publicacion" required>
+				</div>
+				<div class="mb-3">
+					<label for="precio">Precio</label>
+					<input type="text" class="form-control" name="precio" required>
+				</div>
+				<div class="mb-3">
+					<label for="comentarios">Comentarios</label>
+					<input type="text" class="form-control" name="comentarios" required>
+				</div>
+				<div class="mb-3">
+					<label for="imagen" class="form-label">Imagen</label>
+					<div class="card" style="width: 15rem;">
+						<input type="file" class="form-control" name="foto">
+					</div>
+				</div>
+				<button type="submit" class="btn btn-primary">Adicionar</button>
+			</div>
+		</form>
+		<div class="card-footer text-muted">Footer</div>
+	</div>
+	{% endblock %}
+	</div>
+</body>

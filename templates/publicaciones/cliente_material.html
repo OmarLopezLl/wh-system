@@ -1,0 +1,78 @@
+{% extends "warehouses/base.html" %}
+{% load static %}
+{% block titulo %}<title>Warehouses</title>{% endblock %}
+{% block indice %}
+
+{% endblock %}
+
+<body>
+    {% block cuerpo %}
+    <header>
+        <!-- <div class="card-header"> -->
+        {% block card_encabezado %}
+        <div class="row">
+            <div class="col">
+                <div class="logotipo">
+                    <img class="logo" src="static/imagenes/logo.jpg" title="Materiales" alt="." height="120"
+                        width="250" />
+                </div>
+            </div>
+            <div class="col" style="text-align:left">
+                <h3> Lista de materiales </h3>
+            </div>
+        </div>
+        {% endblock %}
+    </header>
+
+    {% block card_cuerpo %}
+    <div class="card">
+        {% block card_detalle %}
+        <table border="10" class <div class="table-responsive-sm">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">Foto</th>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Valor</th>
+                        <th scope="col">Observaciones</th>
+                        <th scope="col">Bodega</th>
+                        <th scope="col">Ciudad</th>
+                        <th scope="col">Teléfono</th>
+                        <th scope="col">Dirección</th>
+                        <th scope="col">Contador</th>
+                        <th scope="col">Id</th>
+                        <th scope="col">Acción</th>
+                    </tr>
+                </thead>
+                {% for x in mater %}
+                <tbody>
+                    <tr class="">
+                        <td>
+                            <div class="card" style="width: 10rem;">
+                                <img src="/{{ x.foto_raw }}" class="card-img-top" alt="...">
+                            </div>
+                        </td>
+                        <td width="250">{{ x.producto }}</td>
+                        <td>{{ x.precio }}</td>
+                        <td width="220">{{ x.comentarios }}</td>
+                        <td width="150"><a href="https://www.google.com" > {{ x.cliente.nombre }} </a> </td>
+                        <td width="150">{{ x.cliente.zona.ciudad.nombre }}</td>
+                        <td width="80" height="5">{{ x.cliente.telefono }}</td>
+                        <td width="150" height="5">{{ x.cliente.direccion }}</td>
+                        <td width="150" height="5">{{ x.contador }}</td>
+                        <td width="150" height="5">{{ x.id }}</td>
+                        <td>
+                             <a href="/updateContador/{{ x.id }}" class="btn btn-lg">
+                                <i class="bi bi-pencil-fill"></i>
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+                {% endfor %}
+            </table>
+            {% endblock %}
+    </div>
+    {% endblock %}
+    </div>
+    {% endblock %}
+</body>

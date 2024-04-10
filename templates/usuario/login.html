@@ -1,0 +1,39 @@
+{% extends "warehouses/base.html" %}
+
+{% block card_encabezado %}
+<div class="row mt-1">
+	<div class="col-1">
+		<div class="logotipo">
+			<img src="/static/imagenes/logo.jpg" class="rounded" title="Materiales" alt="logotipo de materiales"
+				width="100" />
+		</div>
+	</div>
+</div>
+
+{% endblock %}
+
+{% block indice %}
+
+{% endblock %}
+
+{% block card_cuerpo %}
+
+<div class="container-lg my-5">
+	<form action="/iniciar_sesion/" method="post">
+	  <div class="mb-5 form-check text-center">
+	    <h4 class="text-secondary">{{ mensaje }}</h4>
+	  </div>
+	  <div class="mb-3">
+	    <label for="cuenta" class="form-label">Cuenta</label>
+	    <input type="text" class="form-control" name="cuenta" aria-describedby="emailHelp" placeholder="No es el email">
+	    <div id="emailHelp" class="form-text">Nunca comparta su cuenta con otras personas.</div>
+	  </div>
+	  <div class="mb-3">
+	    <label for="clave" class="form-label">Contraseña</label>
+	    <input type="password" class="form-control" name="clave">
+	  </div>
+	  <button type="submit" class="btn btn-primary">Enviar</button>{% csrf_token %}
+	</form>
+</div>
+
+{% endblock %}

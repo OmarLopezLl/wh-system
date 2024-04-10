@@ -1,0 +1,51 @@
+{% extends "publicaciones/base.html" %}
+{% load humanize %}
+{% load l10n %}
+{% block titulo %} Lista de publicaciones {% endblock %}
+{% block contenido %}
+<div class="card">
+	<div class="card-header">
+		<a name="" id="" class="btn btn-success" href="/crear_pub" role=>Agregar nueva publicación</a>
+	</div>
+	<div class="card-body">
+		<h4 class="card-title">Publicaciones</h4>
+		<div class="table-responsive">
+			<table class="table table-primary">
+				<thead>
+					<tr>
+						<th scope="col">id</th>
+						<th scope="col">Titulo</th>
+						<th scope="col">Producto</th>
+						<th scope="col">Fecha</th>
+						<th scope="col">Precio</th>
+						<th scope="col">Comentario</th>
+						<th scope="col"></th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for x in public %}
+					<tr class="">
+						<td>{{ x.id }}</td>
+						<td>
+							<div class="card" style="width: 18rem;">
+								<img src="/{{ x.foto_raw }}" class="card-img-top" w-100 alt="...">
+							</div>
+						</td>
+						<td>{{ x.producto }}</td>
+						<td>{{ x.fecha_publicacion }}</td>
+						<td class="text-end">{{ x.precio|unlocalize|intcomma }}</td>
+						<td>{{ x.comentarios }}</td>				
+						<td>
+							<a name="" id="" class="btn btn-info" href="/editar_pub/{{ x.id }}" role="button">Editar</a>
+							| <a name="" id="" class="btn btn-danger" href="/eliminar_pub/{{ x.id }}"  role="button">Borrar</a>
+						</td>
+					</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+		<p class="card-text">Text</p>
+	</div>
+	<div class="card-footer text-muted">Footer</div>
+</div>
+{% endblock %}
