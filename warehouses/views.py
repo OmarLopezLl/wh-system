@@ -570,9 +570,10 @@ def crear_pub(request):
                 if request.FILES["foto"]:
                         print(request.FILES["foto"])
                 parent_images_path = '/'.join(['static', 'imagenes'])
-                # fot = request.POST['foto']          
+                fot = request.POST['foto']          
                 # fot = '/'.join([parent_images_path, fot])  
-                pub = Publicaciones.objects.create(producto=pro, fecha_publicacion=fecObj, precio=pre, comentarios=com, foto_raw= request.FILES["foto"], cliente_id=cliente_id)
+                # pub = Publicaciones.objects.create(producto=pro, fecha_publicacion=fecObj, precio=pre, comentarios=com, foto_raw= request.FILES["foto"], cliente_id=cliente_id)
+                pub = Publicaciones.objects.create(producto=pro, fecha_publicacion=fecObj, precio=pre, comentarios=com, foto_raw= fot, cliente_id=cliente_id)
                 pub.save()
                 mensaje2 = "Datos actualizados exitosamente!"
                 cla_mensaje2 = "alert-success"
