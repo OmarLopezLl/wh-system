@@ -1,6 +1,8 @@
 from django.db import models
 from django.utils.html import format_html
 from terceros.models import Clientes
+from django.contrib.auth.models import User
+from datetime import datetime
 
 # Create your models here.
 class Publicaciones(models.Model):
@@ -25,3 +27,8 @@ class Publicaciones(models.Model):
 
     def __str__(self):
         return str(self.producto)
+
+class ArchivosExcel(models.Model):
+    usuario=models.ForeignKey(User, on_delete=models.CASCADE)
+    creado_en = models.DateTimeField(default=datetime.now())
+    ruta_excel = models.FileField(upload_to="static/excel")

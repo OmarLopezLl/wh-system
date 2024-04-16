@@ -1,13 +1,14 @@
 # import traceback
 import os
+import pytz
 import traceback
+import pandas as pd
 from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.contrib.postgres.search import SearchQuery, SearchVector, SearchRank
-import pytz 
 from warehousesvirtual.models import Pais, Ciudad,Zonas
 from terceros.models import Clientes, UserClient
-from publicaciones.models import Publicaciones
+from publicaciones.models import Publicaciones, ArchivosExcel
 from django.db.models import Q
 from django.contrib import auth
 from django.views.decorators.csrf import csrf_protect
@@ -178,20 +179,23 @@ def get_publicaciones(_request, id):
 #      return render(request, "publicaciones/import_data.html", contexto)
 
 # https://es.linkedin.com/pulse/importar-datos-desde-excel-en-django-python-daniel-bojorge
+
+
+
 def get_import_data(request,):
-    if request.method == 'POST':  
-        persona_resource = PersonaResource()  
-        dataset = Dataset()  
-        print(dataset)  
-        nuevas_personas = request.FILES['my_file']  
-        print(nuevas_personas)  
-        imported_data = dataset.load(nuevas_personas.read())  
-        print(dataset)  
-        result = persona_resource.import_data(dataset, dry_run=True) # Test the data import 
-        #print(result.has_errors())  if not result.has_errors()  
-        persona_resource.import_data(dataset, dry_run=False) # Actually import now  return render(request, 'export/importar.html')  
-        contexto = {"user1": "cargado"}   
-        return render(request, "publicaciones/import_data.html", contexto)
+    if request.method == 'POST':
+
+
+        excel = request.FILES['excel_data']
+        p = ArchivosExcel.objects.create(usuario=request.user, ruta_excel=excel)
+        p.save()
+        print('AQui')
+        persona_resource = PersonaResource()
+        dataframe = pd.read_excel(excel)
+        context = {}
+        for column in dataframe.columns:
+            context[column] = list(dataframe[column])
+        return render(request, "publicaciones/import_data.html", context)
     else:
         contexto = {"user1": "userclient"}   
         return render(request, "publicaciones/import_data.html", contexto)
@@ -545,36 +549,43 @@ def crear_pub(request):
     print("nivel 1")
     if request.method == "POST" or None:
         print("nivel = 2")
-        print("nivel POST") 
+        print("nivel POST")
 
         if (
             "producto" in request.POST
             and "precio" in request.POST
             and "comentarios" in request.POST
-            and "foto" in request.POST
         ):
-            try:
+            try:           
                 pro = request.POST['producto']
                 fec = request.POST['fecha_publicacion']
-                print(fec)
+                # print(fec)
                 fecObj = datetime.strptime(fec, "%Y-%m-%dT%H:%M")
-                print(type(fec))
+                # print(type(fec))
                 fecObj = fecObj.replace(tzinfo=pytz.timezone('America/Bogota'))
-                print(fec)
-                print(fecObj)
+                # print(fec)
+                # print(fecObj)
                 pre = request.POST['precio']
                 com = request.POST['comentarios']
-                print(request)
-                print("-----")
-                print(request.FILES)
-                if request.FILES["foto"]:
-                        print(request.FILES["foto"])
-                parent_images_path = '/'.join(['static', 'imagenes'])
-                fot = request.POST['foto']          
-                # fot = '/'.join([parent_images_path, fot])  
-                # pub = Publicaciones.objects.create(producto=pro, fecha_publicacion=fecObj, precio=pre, comentarios=com, foto_raw= request.FILES["foto"], cliente_id=cliente_id)
-                pub = Publicaciones.objects.create(producto=pro, fecha_publicacion=fecObj, precio=pre, comentarios=com, foto_raw= fot, cliente_id=cliente_id)
-                pub.save()
+                # print(request)
+                # print("-----")
+                # print(request.FILES)
+                # if request.FILES:
+                #     if request.FILES["foto"]:
+                #         print(request.FILES["foto"])
+                #         fot = request.FILES["foto"]
+                #     else:
+                #         mensaje2 = "No se actualizan fotos!"
+                #     print(request.FILES["foto"])
+                # parent_images_path = '/'.join(['static', 'imagenes'])
+                if request.FILES:
+                    if request.FILES["foto"]:
+                        fot = request.FILES['foto']
+                    else:
+                        mensaje2 = "No se actualizan fotos!"          
+                # fot = '/'.join([parent_images_path, fot]) 
+                p = Publicaciones.objects.create(producto=pro, fecha_publicacion=fecObj, precio=pre, comentarios=com, foto_raw= fot, cliente_id=cliente_id)
+                p.save()
                 mensaje2 = "Datos actualizados exitosamente!"
                 cla_mensaje2 = "alert-success"
                 contexto = "hola"
@@ -585,9 +596,11 @@ def crear_pub(request):
                 cla_mensaje2 = "alert-danger"
                 print(mensaje2)
                 print(traceback.format_exc())
-            except:
-                print("Error desconocido detectado")
-                print(traceback.format_exc())
+            # except:
+            #     print("Error desconocido detectado")
+            #     print(traceback.format_exc())
+            # except MultiValueDictKeyError: # type: ignore
+            #     print("error")
         else:
             mensaje2 = "No se actualiza la información por falta de datos!"
             cla_mensaje2 = "alert-warning"
