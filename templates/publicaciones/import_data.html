@@ -7,35 +7,53 @@
 
 <body>
 	{% block cuerpo %}
-	<header>
-		{% block card_encabezado %}
-		<div class="row">
-			<div class="col">
-				<div class="logotipo">
-					<img class="logo" src="static/imagenes/logo.jpg" title="Materiales" alt="." height="120"
-						width="250" />
+		<header>
+			{% block card_encabezado %}
+			<div class="row">
+				<div class="col">
+					<div class="logotipo">
+						<img class="logo" src="static/imagenes/logo.jpg" title="Materiales" alt="" height="120"
+							width="250" />
+					</div>
+				</div>
+				<div class="col" style="text-align:left">
+					<h3> Lista de materiales </h3>
 				</div>
 			</div>
-			<div class="col" style="text-align:left">
-				<h3> Lista de materiales </h3>
-			</div>
-		</div>
-		{% endblock %}
-	</header>
+			{% endblock %}
+		</header>
 	<hr>
-	{{ user1 }}
+		{% if user1 == "cargado" %}
+			Datos Cargados OK
+		{% else %}
+			{% block card_cuerpo %}
+				<form action="/import_data/" method="POST" enctype="multipart/form-data">
+					{% csrf_token %}
+					<input type="file" name="excel_data">
+					<hr>
+					<button type="submit">Upload </button>
+				</form>
+			{% endblock %}
+		{% endif %}
+	<h4>Captura de articulos </h4>
 	<hr>
-	{% if user1 == "cargado" %}
-		Datos Cargados OK
-	{% else %}
-	{% block card_cuerpo %}
-	<form action="/import_data/" method="POST" enctype="multipart/form-data">
-		{% csrf_token %}
-		<input type="file" name="excel_data">
-		<button type="submit">Upload </button>
-	</form>
-	{% endblock %}
-	{% endif %}
-	</div>
+<table>
+        <thead>
+            <tr>
+                {% for key in data.keys %}
+                <th>{{ key }} </th>
+                {% endfor %}
+            </tr>
+        </thead>
+	<tbody>
+        {% for i in range(data[next(iter(data))]|length) %}
+            <tr>
+                {% for value in data.values() %}
+                    <td>{{ value[i] }}</td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+    </tbody>
+    </table>
 	{% endblock %}
 </body>

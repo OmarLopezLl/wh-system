@@ -6,7 +6,7 @@ import pandas as pd
 from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.contrib.postgres.search import SearchQuery, SearchVector, SearchRank
-from warehousesvirtual.models import Pais, Ciudad,Zonas
+from warehousesvirtual.models import Pais, Ciudad, Zonas
 from terceros.models import Clientes, UserClient
 from publicaciones.models import Publicaciones, ArchivosExcel
 from django.db.models import Q
@@ -35,8 +35,10 @@ def handle_uploaded_file(f):
         for chunk in f.chunks():
             destination.write(chunk)
 
+
 def home(request):
     return render(request, "warehouses/indice.html")
+
 
 def get_paises(request):
     paises = list(Pais.objects.values())
@@ -46,7 +48,8 @@ def get_paises(request):
     else:
         data = {"message": "not found"}
         return JsonResponse(data)
-    
+
+
 def get_ciudades(request, id):
     ciudades = list(Ciudad.objects.filter(pais_id=id).values())
     if len(ciudades) > 0:
@@ -55,20 +58,23 @@ def get_ciudades(request, id):
     else:
         data = {"message": "not found"}
         return JsonResponse(data)
-    
+
+
 def get_zonas(request, id):
     zonas = list(Zonas.objects.filter(ciudad_id=id).values())
     if len(zonas) > 0:
-        data={"message": "Success", "zonas": zonas}
+        data = {"message": "Success", "zonas": zonas}
         return JsonResponse(data)
     else:
-        data={"message": "not found"}
+        data = {"message": "not found"}
         return JsonResponse(data)
-    
+
+
 def partner(request):
     clientes = Clientes.objects.all().select_related("zona").values()
     contexto = {"clien": clientes}
     return render(request, "warehouses/socios.html", contexto)
+
 
 @csrf_protect
 def cliente_material(request):
@@ -78,34 +84,38 @@ def cliente_material(request):
     ciudad = request.POST["ciudad"]
     zona = request.POST["zona"]
     print(mat)
-    try:          
+    try:
         if mat:
-            if ciudad=='':
+            if ciudad == '':
                 print("busca por pais")
-                print (pais)
-                mater =Publicaciones.objects.filter(producto__icontains=mat, cliente__zona__ciudad__pais__id=pais).order_by('producto')
-                print (mater)
-            elif zona=='':
+                print(pais)
+                mater = Publicaciones.objects.filter(producto__icontains=mat,
+                                                     cliente__zona__ciudad__pais__id=pais).order_by('producto')
+                print(mater)
+            elif zona == '':
                 print("busca por ciudad")
-                print (ciudad)
-                mater =Publicaciones.objects.filter(producto__icontains=mat, cliente__zona__ciudad__id=ciudad).order_by('producto')   
+                print(ciudad)
+                mater = Publicaciones.objects.filter(producto__icontains=mat,
+                                                     cliente__zona__ciudad__id=ciudad).order_by('producto')
             else:
-                print("busca por zona")  
+                print("busca por zona")
                 print(zona)
-                mater =Publicaciones.objects.filter(producto__icontains=mat, cliente__zona__id=zona).order_by('producto')
-                print (mater.all)
+                mater = Publicaciones.objects.filter(producto__icontains=mat, cliente__zona__id=zona).order_by(
+                    'producto')
+                print(mater.all)
             context = {"mater": mater}
         else:
-            mater = list(Publicaciones.objects.select_related("cliente")).order_by('producto')            
+            mater = list(Publicaciones.objects.select_related("cliente")).order_by('producto')
             context = {"mater": mater}
-            print("cuarto paso")     
+            print("cuarto paso")
         return render(request, "publicaciones/cliente_material.html", context)
     except:
         print("error")
         mater = Publicaciones.objects.all()
         context = {"mater": ''}
         return render(request, "publicaciones/cliente_material.html", context)
-       
+
+
 ####
 ## Consulta clientes     
 """
@@ -118,13 +128,18 @@ def get_clientes(request, id):
         data = {"message": "not found"}
     return JsonResponse(data)
 """
+
+
 def get_clientes(request, id):
     #clientes = list(Clientes.objects.filter(zona_id=id).select_related("zona").values())
     clientes_raw = Clientes.objects.filter(zona_id=id).select_related("zona")
     if len(clientes_raw) > 0:
         mov_clie = []
         for x in clientes_raw:
-            mov_clie.append({"id": x.id, "nombre": x.nombre, "direccion": x.direccion,"telefono": x.telefono, "email": x.email, "logo_raw": x.logo_raw.url, "pais": x.zona.ciudad.pais.nombre, "ciudad": x.zona.ciudad.nombre, "zona": x.zona.zona, "zona_id": x.zona_id})
+            mov_clie.append(
+                {"id": x.id, "nombre": x.nombre, "direccion": x.direccion, "telefono": x.telefono, "email": x.email,
+                 "logo_raw": x.logo_raw.url, "pais": x.zona.ciudad.pais.nombre, "ciudad": x.zona.ciudad.nombre,
+                 "zona": x.zona.zona, "zona_id": x.zona_id})
         data = {"message": "Success", "clientes": mov_clie}
     else:
         data = {"message": "not found"}
@@ -135,35 +150,41 @@ def get_clientesCiudad(request, id):
     #clientes = list(Clientes.objects.filter(zona_id=id).select_related("zona").values())
     print("ID Ciudad:{}".format(id))
     # clientes_raw = Clientes.objects.filter(zona__ciudad_id=id).select_related("zona")
-    clientes_raw = Clientes.objects.filter(zona__ciudad__id=id).select_related("zona") 
+    clientes_raw = Clientes.objects.filter(zona__ciudad__id=id).select_related("zona")
     if len(clientes_raw) > 0:
         mov_clie = []
         for x in clientes_raw:
-            mov_clie.append({"id": x.id, "nombre": x.nombre, "direccion": x.direccion,"telefono": x.telefono, "email": x.email, "logo_raw": x.logo_raw.url, "pais": x.zona.ciudad.pais.nombre, "ciudad": x.zona.ciudad.nombre, "zona": x.zona.zona, "zona_id": x.zona_id})
-           
+            mov_clie.append(
+                {"id": x.id, "nombre": x.nombre, "direccion": x.direccion, "telefono": x.telefono, "email": x.email,
+                 "logo_raw": x.logo_raw.url, "pais": x.zona.ciudad.pais.nombre, "ciudad": x.zona.ciudad.nombre,
+                 "zona": x.zona.zona, "zona_id": x.zona_id})
+
         data = {"message": "Success", "clientesCiudad": mov_clie}
     else:
-        print ("no encontrada clienteCiudad")
-        mov_clie = []        
-        data = {"message": "not found", "clientesCiudad": mov_clie }
+        print("no encontrada clienteCiudad")
+        mov_clie = []
+        data = {"message": "not found", "clientesCiudad": mov_clie}
     return JsonResponse(data)
 
 
 def get_clientesPais(request, id):
     print("ID Pais:{}".format(id))
     # clientes_raw = Clientes.objects.filter(zona__ciudad_id=id).select_related("zona")
-    clientes_raw = Clientes.objects.filter(zona__ciudad__pais__id=id).select_related("zona") 
+    clientes_raw = Clientes.objects.filter(zona__ciudad__pais__id=id).select_related("zona")
     if len(clientes_raw) > 0:
         mov_clie = []
         for x in clientes_raw:
-            mov_clie.append({"id": x.id, "nombre": x.nombre, "direccion": x.direccion,"telefono": x.telefono, "email": x.email, "logo_raw": x.logo_raw.url, "pais": x.zona.ciudad.pais.nombre, "ciudad": x.zona.ciudad.nombre, "zona": x.zona.zona, "zona_id": x.zona_id})
-           
+            mov_clie.append(
+                {"id": x.id, "nombre": x.nombre, "direccion": x.direccion, "telefono": x.telefono, "email": x.email,
+                 "logo_raw": x.logo_raw.url, "pais": x.zona.ciudad.pais.nombre, "ciudad": x.zona.ciudad.nombre,
+                 "zona": x.zona.zona, "zona_id": x.zona_id})
+
         data = {"message": "Success", "clientesPais": mov_clie}
     else:
-        data = {"message": "not found" }
+        data = {"message": "not found"}
     return JsonResponse(data)
 
-   
+
 def get_publicaciones(_request, id):
     publicaciones = list(Publicaciones.objects.filter(cliente_id=id).values())
     if len(publicaciones) > 0:
@@ -172,7 +193,7 @@ def get_publicaciones(_request, id):
     else:
         data = {"message": "not found"}
         return JsonResponse(data)
-    
+
 
 # def get_import_data(request,):     
 #      contexto = {"user": "userclient"}   
@@ -181,11 +202,12 @@ def get_publicaciones(_request, id):
 # https://es.linkedin.com/pulse/importar-datos-desde-excel-en-django-python-daniel-bojorge
 
 
-
-def get_import_data(request,):
+def get_import_data(request):
+    """
+    Importar datos desde archivo excel
+    import data from excel files and save
+    """
     if request.method == 'POST':
-
-
         excel = request.FILES['excel_data']
         p = ArchivosExcel.objects.create(usuario=request.user, ruta_excel=excel)
         p.save()
@@ -193,11 +215,14 @@ def get_import_data(request,):
         persona_resource = PersonaResource()
         dataframe = pd.read_excel(excel)
         context = {}
+
         for column in dataframe.columns:
             context[column] = list(dataframe[column])
-        return render(request, "publicaciones/import_data.html", context)
+        print(context)
+        return render(request, "publicaciones/import_data.html", {'data': context, "user1": "userclient"})
+
     else:
-        contexto = {"user1": "userclient"}   
+        contexto = {"user1": "userclient", "data": { 1: [2] }}
         return render(request, "publicaciones/import_data.html", contexto)
 
 
@@ -216,8 +241,9 @@ def get_publiCliente(request, id):
         mensaje = "No hay datos"
         contexto = {"Errorr": mensaje}
         return render(request, "publicaciones/cliente_material.html", contexto)
-    
-@csrf_protect    
+
+
+@csrf_protect
 def updateContador(request, id):
     try:
         p = Publicaciones.objects.get(pk=id)
@@ -226,18 +252,17 @@ def updateContador(request, id):
         mensaje = "Se actualizo el material"
         contexto = {"Successful": mensaje}
         contexto = {
-        "mater": mensaje,
-        "canti": p.contador,
-        "nomc":  p.producto,
+            "mater": mensaje,
+            "canti": p.contador,
+            "nomc": p.producto,
         }
         print(mensaje)
         print(p.contador)
         print(p.producto)
     except:
         mensaje = "No actualizo material"
-        contexto = {"Errorr": contexto }
+        contexto = {"Errorr": contexto}
     # return render(request, "publicaciones/cliente_material.html", contexto)
-
 
     return HttpResponse(contexto)
 
@@ -249,8 +274,8 @@ def updateContador(request, id):
     #     public = Publicaciones.objects.get(pk=request.Publicaciones.id)
     #     public.contador = request.POST[1]
     #     public.save()
-    
-   
+
+
 # def get_materiales(request):
 #     q = request.POST.get('material')
 #     print(q)
@@ -287,7 +312,7 @@ def updateContador(request, id):
 # 		usuario_sesion = 3 # Usuario anónimo
 # 	else:
 # 		usuario_sesion = request.user.id # Usuario autenticado
-	
+
 # 	if request.session.session_key:
 # 		id_session_new = request.session.session_key
 # 	else:
@@ -344,7 +369,7 @@ def iniciar_sesion(request):
             "items_cart": "",
         }
         return render(request, "usuario/login.html", contexto)
-    
+
 
 @login_required(login_url="/iniciar_sesion")
 @csrf_protect
@@ -357,10 +382,10 @@ def perfil(request):
         # Segundo Nivel
         nivel = 2
         if (
-            "cuenta" in request.POST
-            and "nombres" in request.POST
-            and "apellidos" in request.POST
-            and "email" in request.POST
+                "cuenta" in request.POST
+                and "nombres" in request.POST
+                and "apellidos" in request.POST
+                and "email" in request.POST
         ):
             try:
                 # Actualizar los datos en la tabla
@@ -408,9 +433,9 @@ def cambiar_clave(request):
         # Segundo Nivel
         nivel = 2
         if (
-            "clave" in request.POST
-            and "clave1" in request.POST
-            and "clave2" in request.POST
+                "clave" in request.POST
+                and "clave1" in request.POST
+                and "clave2" in request.POST
         ):
             try:
                 # Actualizar los datos en la tabla
@@ -452,30 +477,32 @@ def cambiar_clave(request):
 
 @login_required(login_url='/shop/iniciar_sesion')
 def cerrar_sesion(request):
-	#return HttpResponse("Cerrando Sesión en mi Proyecto Tienda virtual", request)
-	auth.logout(request)
-	return HttpResponseRedirect("/", request)
+    #return HttpResponse("Cerrando Sesión en mi Proyecto Tienda virtual", request)
+    auth.logout(request)
+    return HttpResponseRedirect("/", request)
+
 
 @login_required(login_url='/shop/iniciar_sesion')
 def publicaciones(request):
     try:
-        id= request.user.id 
+        id = request.user.id
         print("ID del usuario:{}".format(id))
-        cl = UserClient.objects.filter(usuario_id=id) 
+        cl = UserClient.objects.filter(usuario_id=id)
         var = []
         for x in cl:
             # print(x.cliente.id)
-            var.append(x.cliente.id)   
+            var.append(x.cliente.id)
         public = Publicaciones.objects.filter(cliente_id__in=var)
         return render(request, "publicaciones/indice.html", {"public": public})
     except:
         mensaje = "No hay datos"
         contexto = {"Errorr": mensaje}
         return render(request, "publicaciones/indice.html", contexto)
-    
+
+
 def editar_pub(request, id):
     nivel = 1
-    x = request.user.id 
+    x = request.user.id
     usuario = x
     p = None
     mensaje2 = ""
@@ -484,9 +511,9 @@ def editar_pub(request, id):
         # segundo nivel
         nivel = 2
         if (
-            "producto" in request.POST
-            and "precio" in request.POST
-            and "comentarios" in request.POST
+                "producto" in request.POST
+                and "precio" in request.POST
+                and "comentarios" in request.POST
         ):
             try:
                 # actualizar datos de tabla              
@@ -494,7 +521,7 @@ def editar_pub(request, id):
                 p.producto = request.POST["producto"]
                 p.precio = request.POST["precio"]
                 p.comentarios = request.POST["comentarios"]
-               
+
                 if request.FILES:
                     if request.FILES["foto"]:
                         print(request.FILES["foto"])
@@ -525,6 +552,7 @@ def editar_pub(request, id):
         }
     return render(request, "publicaciones/editar_pub.html", contexto)
 
+
 # def crear_pub(request):
 #     formulario = PublicForm(request.POST or None, request.FILES or None)
 #     if formulario.is_valid():
@@ -533,10 +561,10 @@ def editar_pub(request, id):
 #     return render(request, "publicaciones/crear_pub.html", {"formulario": formulario})
 
 def eliminar_pub(request, id):
-      p = Publicaciones.objects.get(pk=id)
+    p = Publicaciones.objects.get(pk=id)
     #   public = get_object_or_404(Publicaciones, id=id) # type: ignore
-      p.delete()
-      return HttpResponseRedirect("/publicaciones", request)
+    p.delete()
+    return HttpResponseRedirect("/publicaciones", request)
 
 
 def crear_pub(request):
@@ -552,11 +580,11 @@ def crear_pub(request):
         print("nivel POST")
 
         if (
-            "producto" in request.POST
-            and "precio" in request.POST
-            and "comentarios" in request.POST
+                "producto" in request.POST
+                and "precio" in request.POST
+                and "comentarios" in request.POST
         ):
-            try:           
+            try:
                 pro = request.POST['producto']
                 fec = request.POST['fecha_publicacion']
                 # print(fec)
@@ -582,15 +610,16 @@ def crear_pub(request):
                     if request.FILES["foto"]:
                         fot = request.FILES['foto']
                     else:
-                        mensaje2 = "No se actualizan fotos!"          
-                # fot = '/'.join([parent_images_path, fot]) 
-                p = Publicaciones.objects.create(producto=pro, fecha_publicacion=fecObj, precio=pre, comentarios=com, foto_raw= fot, cliente_id=cliente_id)
+                        mensaje2 = "No se actualizan fotos!"
+                        # fot = '/'.join([parent_images_path, fot])
+                p = Publicaciones.objects.create(producto=pro, fecha_publicacion=fecObj, precio=pre, comentarios=com,
+                                                 foto_raw=fot, cliente_id=cliente_id)
                 p.save()
                 mensaje2 = "Datos actualizados exitosamente!"
                 cla_mensaje2 = "alert-success"
                 contexto = "hola"
                 print("Grabado")
-                return HttpResponseRedirect("/publicaciones/", request )
+                return HttpResponseRedirect("/publicaciones/", request)
             except IntegrityError:
                 mensaje2 = "Error: no se crearon los los datos!"
                 cla_mensaje2 = "alert-danger"
@@ -608,8 +637,8 @@ def crear_pub(request):
     else:
         # Primer Nivel
         print("else nivel 1")
-        print ( x ) 
-        print ( x.cliente_id )
+        print(x)
+        print(x.cliente_id)
         contexto = {
             "mensaje": "Actualización del perfil",
             "usuario": x,
@@ -619,13 +648,13 @@ def crear_pub(request):
             "mensaje2": mensaje2,
             "cla_mensaje2": cla_mensaje2,
         }
-        return render(request, "publicaciones/crear_pub.html", contexto)   
+        return render(request, "publicaciones/crear_pub.html", contexto)
+
+    ####
 
 
-
-####
 def nosotros(request, id):
     print(id)
-    nos= Clientes.objects.filter(id=id)
-    contexto= {"nosotros": nos}
+    nos = Clientes.objects.filter(id=id)
+    contexto = {"nosotros": nos}
     return render(request, "warehouses/nosotros.html", contexto)
